@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import conectarBD from "./config/db.js";
-import router from "./routes/usuarioRoutes.js";
+import usuarioRoutes from "./routes/usuarioRoutes.js";
+import portafolioRoutes from "./routes/portafolioRoutes.js";
 
 // Montamos el framework express
 const app = express()
@@ -16,7 +17,8 @@ dotenv.config()
 conectarBD()
 
 //Routing
-app.use('/api/usuarios', router)
+app.use('/api/usuarios', usuarioRoutes)
+app.use('/api/portafolio', portafolioRoutes)
 
 // Para iniciar el servidor
 const PORT = process.env.PORT || 4000
