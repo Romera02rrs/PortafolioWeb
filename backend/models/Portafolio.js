@@ -12,9 +12,18 @@ const portafolioSchema = mongoose.Schema({
     },
     formaciones: [
         {
-            type: String,
-            trim: true
-        }
+            titulo: {
+                type: String,
+                trim: true,
+                required: true
+            },
+            campo: String,
+            nombreCentro: String,
+            fechaInicio: Date,
+            fechaFin: Date,
+            enCurso: Boolean,
+            ubicacion: String
+        },
     ],
     habilidades: [
         {
@@ -31,7 +40,7 @@ const portafolioSchema = mongoose.Schema({
     autor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Usuario',
-        required: true
+        //required: true
     }
 },
 {

@@ -18,7 +18,7 @@ router.route('/')
 router.route('/:id')
     .get(checkAuth, obtenerPortafolio)
     .put(checkAuth, editarPortafolio)
-    .delete(eliminarPortafolio)
+    .delete(checkAuth, eliminarPortafolio)
 
 
 export default router

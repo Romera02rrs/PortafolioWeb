@@ -21,6 +21,6 @@ router.post("/olvide-password", olvidePassword); // Verifica que exista el usuar
 router.route("/olvide-password/:token").get(comprobarToken).post(nuevoPassword); // Comprueba el token y establece la nueva contraseña
 
 // Middleware que se ejecuta antes de "perfil" y pasa a la siguiente función con next()
-router.get('/perfil', checkAuth, perfil)
+router.get('/perfil', checkAuth, perfil) // checkAuth comprueba el usuario y lo establece en los headers
 
 export default router;
