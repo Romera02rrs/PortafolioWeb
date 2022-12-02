@@ -1,6 +1,8 @@
 import Usuario from "../models/Usuario.js";
 import generarId from "../helpers/generarId.js";
 import generarJWT from "../helpers/generarJWT.js";
+import { emailRegistro } from "../helpers/email.js";
+import { emailOlvidePassword } from "../helpers/email.js";
 
 const registrar = async (req, res) => {
 
@@ -16,10 +18,13 @@ const registrar = async (req, res) => {
     try {
         const newUser = new Usuario(req.body)
         newUser.token = generarId() // El token es para verifiacar las cuentas via email
-        const newUserAlmacenado = await newUser.save() // .save() manda la clase newUser donde se puede hacer referencia a la misma con this.
-        return res.json(newUserAlmacenado)
+        await newUser.save() // .save() manda la clase newUser donde se puede hacer referencia a la misma con this.
+
+        emailRegistro(newUser)
+
+        return res.json({ msg: 'Usuario creado correctamente' })
     } catch (error) {
-        console.log(error);
+        return res.json({ msg: 'Error al registrar al usuario: ' + error.message })
     }
 }
 
@@ -64,6 +69,7 @@ const confirmar = async (req, res) => {
 
     const { token } = req.params
     const usuarioConfirmar = await Usuario.findOne({ token: token })
+    
     if(!usuarioConfirmar){
         const error = new Error("Token No válido")
         return res.status(403).json({ msg: error.message })
@@ -74,12 +80,11 @@ const confirmar = async (req, res) => {
         usuarioConfirmar.token = ''
         console.log(usuarioConfirmar);
         await usuarioConfirmar.save()
-        //res.json({ msg: "Usuario confirmado correctamente" })
+        return res.json({ msg: "Usuario confirmado correctamente" })
     } catch (error) {
-        console.log(error);
+        const err = new Error("Token No válido")
+        return res.status(403).json({ msg: err.message })
     }
-
-    res.json(usuarioConfirmar)
 }
 
 const olvidePassword = async (req, res) => {
@@ -90,14 +95,15 @@ const olvidePassword = async (req, res) => {
 
     // Comprobar si existe
     if(!usuario){
-        const error = new Error("El usuario no existe")
+        const error = new Error("El correo no existe")
         return res.status(404).json({ msg: error.message })
     }
 
     try {
         usuario.token = generarId()
         await usuario.save()
-        res.json({ msg: "hemos enviado un email con las instrucciones" })
+        emailOlvidePassword(usuario)
+        res.json({ msg: "Hemos enviado un email con las instrucciones, puedes cerrar la ventana" })
     } catch (error) {
         console.log(error);
     }
@@ -124,7 +130,7 @@ const nuevoPassword = async (req, res) => {
         usuario.password = password
         usuario.token = ''
         await usuario.save()
-        res.json({msg: "Password modificado correctamente"})
+        res.json({msg: "La contraseña ha sido modificada con éxito"})
     }else{
         const error = new Error("Token no válido")
         return res.status(404).json({ msg: error.message })

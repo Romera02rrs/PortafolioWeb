@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors"
 import conectarBD from "./config/db.js";
 import usuarioRoutes from "./routes/usuarioRoutes.js";
 import portafolioRoutes from "./routes/portafolioRoutes.js";
@@ -15,6 +16,21 @@ dotenv.config()
 
 // Conectamos a la base de datos de Mongo
 conectarBD()
+
+//Configurar CORS
+const whiteList = [process.env.FRONTEND_URL]
+
+const corsOptions = {
+    origin: function(origin, callback) {
+        if(whiteList.includes(origin)){
+            callback(null, true)
+        }else {
+            callback(new Error("Error de Cors"))
+        }
+    }
+}
+
+app.use(cors(corsOptions))
 
 //Routing
 app.use('/api/usuarios', usuarioRoutes)
