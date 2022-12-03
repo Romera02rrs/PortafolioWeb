@@ -19,8 +19,7 @@ const NuevoPassword = () => {
     const confirmarToken = async () => {
 
       try {
-        const { data } = await clienteAxios.get('/usuarios/olvide-password/' + token);
-        console.log(data);
+        await clienteAxios.get('/usuarios/olvide-password/' + token);
         setTokenValido(true);
       } catch (error) {
         setMensaje({
@@ -37,39 +36,44 @@ const NuevoPassword = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
 
+    if([password, rePassword].includes('')){
+      return setMensaje({
+        title:'',
+        msg: 'Todos los campos son obligatorios',
+        color: 'red'
+      })
+    }
+
     if(password !== rePassword){
-      setMensaje({
+      return setMensaje({
         msg: 'Las contraseñas no coinciden',
         color: 'red',
         titulo: ''
       })
-      return
     }
     
     if(password.length < 8){
-      setMensaje({
+      return setMensaje({
         msg: 'La contraseña debe tener 8 caracteres como mínimo',
         color: 'red',
         titulo: ''
       })
-      return
     }
 
     try {
       const { data } = await clienteAxios.post('/usuarios/olvide-password/' + token, {password})
-      setMensaje({
+      return setMensaje({
         msg: data.msg,
         color: 'green',
         titulo: ''
       })
     } catch (error) {
-      console.log(error.response);
       setMensaje({
         titulo: error.response.status,
         msg: error.response.data.msg,
         color: "red",
       });
-      setTokenValido(false)
+      return setTokenValido(false)
     }
   }
 
@@ -132,7 +136,7 @@ const NuevoPassword = () => {
       <nav className="lg:flex lg:justify-between">
         <Link
           className="block text-center my-5 text-slate-500 text-sm"
-          to="/">
+          to="/usuarios">
           ¿Ya eres cliente?{" "}
           <span className="underline-transition text-rose-500 uppercase font-medium">
             Iniciar sesión

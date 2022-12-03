@@ -73,7 +73,7 @@ const OlvidePassword = () => {
       <nav className="lg:flex lg:justify-between">
         <Link
           className="block text-center my-5 text-slate-500 text-sm"
-          to="/">
+          to="/usuarios">
           ¿Ya eres cliente?{" "}
           <span className="underline-transition text-rose-500 uppercase font-medium">
             Iniciar sesión
@@ -82,7 +82,7 @@ const OlvidePassword = () => {
 
         <Link
           className="block text-center my-5 text-slate-500 text-sm"
-          to="/registrar">
+          to="/usuarios/registrar">
           ¿No tienes una cuenta?{" "}
           <span className="underline-transition text-rose-500 uppercase font-medium">
             Regístrate

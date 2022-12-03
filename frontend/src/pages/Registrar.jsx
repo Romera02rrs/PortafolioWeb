@@ -26,30 +26,27 @@ const Registrar = () => {
     e.preventDefault()
 
     if([nombre, email, password, rePassword].includes('')){
-      setMensaje({
+      return setMensaje({
         msg: 'Todos los campos son obligatorios',
         color: 'red',
         titulo: ''
       })
-      return
     }
 
     if(password !== rePassword){
-      setMensaje({
+      return setMensaje({
         msg: 'Las contraseñas no coinciden',
         color: 'red',
         titulo: ''
       })
-      return
     }
     
     if(password.length < 8){
-      setMensaje({
+      return setMensaje({
         msg: 'La contraseña debe tener 8 caracteres como mínimo',
         color: 'red',
         titulo: ''
       })
-      return
     }
 
     try {
@@ -68,12 +65,11 @@ const Registrar = () => {
       onResetForm()
     } catch (error) {
       console.log(error.response);
-      setMensaje({
+      return setMensaje({
         msg: error.response.data.msg,
         color: 'red',
         titulo: 'Error ' + error.response.status
       })
-      return
     }
   }
 
@@ -167,7 +163,7 @@ const Registrar = () => {
       <nav className="lg:flex lg:justify-between">
         <Link
           className="block text-center my-5 text-slate-500 text-sm"
-          to="/">
+          to="/usuarios">
           ¿Ya eres cliente?{" "}
           <span className="underline-transition text-rose-500 uppercase font-medium">
             Iniciar sesión
@@ -176,7 +172,7 @@ const Registrar = () => {
 
         <Link
           className="block font-medium hover:pointer text-center my-5 uppercase text-sm text-rose-500"
-          to="/olvide-password">
+          to="/usuarios/olvide-password">
           <span className="underline-transition">Olvide Mi Password</span>
         </Link>
       </nav>

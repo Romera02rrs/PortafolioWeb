@@ -49,7 +49,7 @@ const ConfirmarCuenta = () => {
             </h1>
             <Link 
               className="bg-rose-500 text-center block mt-10 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
-              to={'/'}>
+              to='/usuarios'>
               Haz CLick aqui
             </Link>
           </div>
