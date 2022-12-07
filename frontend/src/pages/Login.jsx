@@ -1,11 +1,14 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Mensaje from "../components/Mensaje";
 import clienteAxios from "../config/clienteAxios";
 import { useForm } from "../hooks/useForm";
 import useAuth from "../hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
+
+  const navigate = useNavigate()
 
   const { setAuth } = useAuth()
   const [mensaje, setMensaje] = useState(false)
@@ -31,7 +34,14 @@ const Login = () => {
         password
       })
       localStorage.setItem('token', data.token)
-      await setAuth(data);
+      setAuth(data);
+      setMensaje({
+        titulo: '',
+        msg: 'Inicio de sesión exitoso',
+        color: "green",
+      });
+      return navigate('/portafolios')
+      
     } catch (error) {
       return setMensaje({
         titulo: error.response.status,

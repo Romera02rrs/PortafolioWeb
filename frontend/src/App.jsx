@@ -5,17 +5,18 @@ import Registrar from "./pages/Registrar";
 import OlvidePassword from "./pages/OlvidePassword";
 import NuevoPassword from "./pages/NuevoPassword";
 import ConfirmarCuenta from "./pages/ConfirmarCuenta";
+import Portafolios from "./pages/Portafolios";
 
 import { AuthProvider } from "./context/AuthProvider";
+import RutaProtegida from "./layouts/RutaProtegida";
+import NuevoPortafolio from "./pages/NuevoPortafolio";
 
 function App() {
   return (
     <BrowserRouter>
       <AuthProvider>
         <Routes>
-          <Route path="/" element={<div className="min-h-screen w-full text-center"><Link className="text-9xl bg-sky-600 rounded-lg" to='/usuarios'>Usuarios</Link></div>}>
-
-          </Route>
+          <Route path="/" element={<div className="min-h-screen w-full flex justify-center items-center"><Link className="text-9xl bg-sky-600 rounded-lg" to='/usuarios'>Usuarios</Link></div>} />
 
           <Route path="/usuarios" element={<AuthLayout />}>
             <Route index element={<Login />} />
@@ -25,7 +26,10 @@ function App() {
             <Route path="confirmar/:id" element={<ConfirmarCuenta />} />
           </Route>
 
-          <Route></Route>
+          <Route path="/portafolios" element={<RutaProtegida />}>
+            <Route index element={<Portafolios />} />
+            <Route path="crear-portafolio" element={<NuevoPortafolio />} />
+          </Route>
         </Routes>
       </AuthProvider>
     </BrowserRouter>

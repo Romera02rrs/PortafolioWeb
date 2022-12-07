@@ -7,23 +7,27 @@ const usuarioSchema = mongoose.Schema(
       type: String,
       required: true,
       trim: true,
+      maxLength: 255
     },
     password: {
       type: String,
       required: true,
       trim: true,
+      maxLength: 255,
+      minLength: 8
     },
     email: {
       type: String,
       required: true,
       trim: true,
       unique: true,
+      maxLength: 320
     },
     edad: { 
-        type: 
-        Number, 
-        min: 0, 
-        max: 120 
+      type: 
+      Number, 
+      min: 0, 
+      max: 120 
     },
     token: {
       type: String,
