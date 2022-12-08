@@ -19,7 +19,7 @@ export const emailRegistro = async ({ nombre, email, token }) => {
     html: `
       <h1>¡Bienvenido ${nombre}!</h1>
       <p>Confirma tu cuenta de portafolio web, haciendo click en el siguiente enlace</p>
-      <a href="${process.env.FRONTEND_URL}/confirmar/${token}">¡Comienza a disfrutar de tus ventajas cuanto antes, haz click aqui!</a>
+      <a href="${process.env.FRONTEND_URL}/usuarios/confirmar/${token}">¡Comienza a disfrutar de tus ventajas cuanto antes, haz click aqui!</a>
       <p>Si no has creado una cuenta en <a href="${process.env.FRONTEND_URL}">${process.env.FRONTEND_URL}</a>, puedes ignorar este mensaje</p>
     `
   })
@@ -44,7 +44,7 @@ export const emailOlvidePassword = async ({ nombre, email, token }) => {
     html: `
       <h1>¡Hola ${nombre}!</h1>
       <p>Reestablece la contraseña de tu cuenta en portafolioWeb, haciendo click en el siguiente enlace</p>
-      <a href="${process.env.FRONTEND_URL}/olvide-password/${token}">¡Reestablce tu contraseña haciendo click en el siguiente enlace!</a>
+      <a href="${process.env.FRONTEND_URL}/usuarios/olvide-password/${token}">¡Reestablce tu contraseña haciendo click en el siguiente enlace!</a>
       <p>Si no has creado una cuenta en <a href="${process.env.FRONTEND_URL}">${process.env.FRONTEND_URL}</a>, puedes ignorar este mensaje</p>
     `
   })
