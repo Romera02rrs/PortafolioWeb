@@ -3,6 +3,9 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
+    'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
+    './src/**/*.html',
+    './node_modules/flowbite/**/*.js'
   ],
   theme: {
     screens: {
@@ -20,8 +23,11 @@ module.exports = {
 
       '2xl': '1536px',
       // => @media (min-width: 1536px) { ... }
-      'xs' : '500px'
+      'xs' : '500px',
+      'xxs' : '400px'
     },
   },
-  plugins: [],
+  plugins: [
+    require('flowbite/plugin')
+  ],
 }
