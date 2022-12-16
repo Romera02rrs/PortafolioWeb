@@ -7,9 +7,6 @@ import { useForm, useFieldArray } from "react-hook-form";
 import clienteAxios from "../config/clienteAxios";
 
 const FormularioPortafolio = () => {
-
-  
-
   const date = new Date();
   const [month, day, year] = [
     date.getMonth(),
@@ -131,34 +128,45 @@ const FormularioPortafolio = () => {
     return dia < 10 ? "0" + dia : dia;
   };
 
-  const onFormSubmit = (dataForm) => {
+  const calculateDays = (date1, date2) => {
+    date1 = new Date(date1);
+    date2 = new Date(date2);
+    const diffTime = Math.abs(date2 - date1);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    return diffDays;
+  };
 
-    if(errors.lenght > 0){
-      return console.log('hay errores: ', errors)
+  const onFormSubmit = (dataForm) => {
+    if (errors.lenght > 0) {
+      return console.log("hay errores: ", errors);
     }
 
-    const token = localStorage.getItem('token')
+    //const days = calculateDays(dataForm.experiencia[0].fechaInicio, dataForm.experiencia[0].fechaFin);console.log(days);
 
-    const getPortafolios = async () => {
+    const token = localStorage.getItem("token");
+
+    const enviarPortafolio = async () => {
       const config = {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
       };
-  
+
       try {
-        const { data } = await clienteAxios.post('/portafolio', dataForm, config)
-        console.log(data);   
-  
+        const { data } = await clienteAxios.post(
+          "/portafolio",
+          dataForm,
+          config
+        );
+        console.log(data);
       } catch (error) {
         console.log(error.response);
       }
     };
 
-    getPortafolios()
-
-  }
+    enviarPortafolio();
+  };
 
   return (
     <form
@@ -286,7 +294,7 @@ const FormularioPortafolio = () => {
                   />
                   <div
                     className="flex ml-3 mt-5 sm:mt-0 justify-center flex-col gap-4"
-                    id={`toggle${index}`} >
+                    id={`toggle${index}`}>
                     <ToggleSwitch
                       checked={trabajoActual}
                       label="Trabajo actualmente"
@@ -322,9 +330,9 @@ const FormularioPortafolio = () => {
           );
         })}
         <Modal.Footer>
-          <Button onClick={() => expAppend("")}>Nuevo campo</Button>
-          <Button color="gray" onClick={onCloseExperiencia}>
-            Guardar
+          <Button onClick={onCloseExperiencia}>Guardar</Button>
+          <Button color="gray" onClick={() => expAppend("")}>
+            Nuevo campo
           </Button>
         </Modal.Footer>
       </Modal>
@@ -349,7 +357,7 @@ const FormularioPortafolio = () => {
         <Modal.Header>Inserte un nuevo campo</Modal.Header>
         {forFields.map((item, index) => {
           return (
-            <Modal.Body  key={item.id} className="m-10 bg-gray-200 rounded-lg">
+            <Modal.Body key={item.id} className="m-10 bg-gray-200 rounded-lg">
               <div className="mb-5">
                 <label
                   className="text-gray-700 uppercase font-bold text-sm"
@@ -467,7 +475,7 @@ const FormularioPortafolio = () => {
           );
         })}
         <Modal.Footer>
-          <Button onClick={() => forAppend('')}>Nuevo campo</Button>
+          <Button onClick={() => forAppend("")}>Nuevo campo</Button>
           <Button color="gray" onClick={onCloseFormacion}>
             Guardar
           </Button>

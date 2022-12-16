@@ -13,7 +13,6 @@ const AuthProvider = ({children}) => {
 
     // Se ejecuta una vez al iniciar la app, comprueba si hay un jwt en localstorage, si lo hay lo envia al backend para recibir los datos del usuario
     useEffect(() => {
-
       const autenticarUsuario = async () => {
         const token = localStorage.getItem('token')
         if(!token){
@@ -27,10 +26,11 @@ const AuthProvider = ({children}) => {
         }
         try {
             const { data } = await clienteAxios.get('/usuarios/perfil', config)
-            // console.log(data);
+            console.log(data);
             setAuth(data)
             navigate('/portafolios')
         } catch (error) {
+            console.log(error.response.data);
             setAuth({})
         } finally {
             setLoading(false)
@@ -39,13 +39,19 @@ const AuthProvider = ({children}) => {
       autenticarUsuario()
     }, [])
     
+    const cerrarSesion = () => {
+        setAuth({})
+        localStorage.removeItem('token')
+        navigate('/usuarios')
+    }
 
     return (
         <AuthContext.Provider
             value={{
               auth,
               setAuth,
-              loading
+              loading,
+              cerrarSesion
             }}>
                 {children}
         </AuthContext.Provider>

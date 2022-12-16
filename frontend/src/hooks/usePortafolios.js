@@ -19,13 +19,13 @@ const usePortafolios = () => {
 
     try {
       const { data } = await clienteAxios.get('/portafolio', config)
+      setPortafolios(data)
       console.log(data);   
+      setLoading(false)
 
     } catch (error) {
       console.log(error.response);
     }
-
-
   };
 
   useEffect(() => {
@@ -33,9 +33,14 @@ const usePortafolios = () => {
     getPortafolios()
   }, [])
   
+  const obtenerPortafolios = () => {
+    return getPortafolios()
+  }
 
   return {
     portafolios,
+    loading,
+    obtenerPortafolios
   };
 };
 

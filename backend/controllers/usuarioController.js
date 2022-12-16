@@ -4,6 +4,7 @@ import generarJWT from "../helpers/generarJWT.js";
 import { emailRegistro } from "../helpers/email.js";
 import { emailOlvidePassword } from "../helpers/email.js";
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const registrar = async (req, res) => {
 
     // Evitar registros duplicados
@@ -28,6 +29,7 @@ const registrar = async (req, res) => {
     }
 }
 
+// Autenticar usuario  -  POST /api/usuarios/autenticar
 const autenticar = async (req, res) => {
 
     // Obtengo los datos del request
@@ -63,6 +65,7 @@ const autenticar = async (req, res) => {
     }
 }
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const confirmar = async (req, res) => {
     
     //res.json(await Usuario.find({ }))
@@ -87,6 +90,7 @@ const confirmar = async (req, res) => {
     }
 }
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const olvidePassword = async (req, res) => {
 
     const { email } = req.body
@@ -109,6 +113,7 @@ const olvidePassword = async (req, res) => {
     }
 }
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const comprobarToken = async (req, res) => { 
     const { token } = req.params
     const tokenValido = await Usuario.findOne({token:token})
@@ -120,6 +125,7 @@ const comprobarToken = async (req, res) => {
     }
 }
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const nuevoPassword = async (req, res) => {
     const { token } = req.params
     const { password } = req.body
@@ -137,6 +143,7 @@ const nuevoPassword = async (req, res) => {
     }
 }
 
+// Obtener todos los usuarios  -  GET /api/usuarios
 const perfil = async (req, res) => {
     const { usuario } = req
 

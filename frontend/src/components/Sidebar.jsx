@@ -13,7 +13,7 @@ const Sidebar = () => {
       <div className="w-full flex justify-center">
         <Link
           to="crear-portafolio"
-          className="bg-sky-600 md:text-center md:min-w-full p-3 text-white uppercase font-bold block mt-5 text-center rounded-lg">
+          className="bg-sky-600 md:text-center md:min-w-full p-3 text-white uppercase font-bold block mt-5 text-center rounded-lg shadow-lg hover:shadow-none hover:bg-sky-700 transition-colors">
           Nuevo portafolio
         </Link>
       </div>

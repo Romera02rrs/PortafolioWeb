@@ -1,9 +1,9 @@
-import express from "express";
-import dotenv from "dotenv";
+import express from "express"
+import dotenv from "dotenv"
 import cors from "cors"
-import conectarBD from "./config/db.js";
-import usuarioRoutes from "./routes/usuarioRoutes.js";
-import portafolioRoutes from "./routes/portafolioRoutes.js";
+import conectarBD from "./config/db.js"
+import usuarioRoutes from "./routes/usuarioRoutes.js"
+import portafolioRoutes from "./routes/portafolioRoutes.js"
 
 // Montamos el framework express
 const app = express()
@@ -18,30 +18,26 @@ dotenv.config()
 conectarBD()
 
 //Configurar CORS
-const whiteList = [process.env.FRONTEND_URL]
+const whitelist = [process.env.FRONTEND_URL, process.env.DEV_URL]
 
-const corsOptions = {
-    origin: function(origin, callback) {
-
-        console.log(origin);
-        console.log(whiteList);
-        
-        if(whiteList.includes(origin)){
-            callback(null, true)
-        }else {
-            callback(new Error("Error de Cors"))
-        }
+var corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true)
+    } else {
+      callback(new Error("Not allowed by CORS"))
     }
+  },
 }
 
 app.use(cors(corsOptions))
 
 //Routing
-app.use('/api/usuarios', usuarioRoutes)
-app.use('/api/portafolio', portafolioRoutes)
+app.use("/api/usuarios", usuarioRoutes)
+app.use("/api/portafolio", portafolioRoutes)
 
 // Para iniciar el servidor
-const PORT = process.env.PORT || 8080
+const PORT = process.env.PORT || 4000
 app.listen(PORT, () => {
-    console.log(`servidor corriendo en el puerto ${PORT}`);
+  console.log(`servidor corriendo en el puerto ${PORT}`)
 })

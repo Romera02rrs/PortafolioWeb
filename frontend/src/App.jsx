@@ -30,6 +30,7 @@ function App() {
             <Route index element={<Portafolios />} />
             <Route path="crear-portafolio" element={<NuevoPortafolio />} />
           </Route>
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>

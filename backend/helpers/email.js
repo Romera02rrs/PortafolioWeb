@@ -1,29 +1,29 @@
 import nodemailer from "nodemailer";
 
-export const emailRegistro = async ({ nombre, email, token }) => {
+  export const emailRegistro = async ({ nombre, email, token }) => {
 
-  const transport = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: process.env.EMAIL_PORT,
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
+    const transport = nodemailer.createTransport({
+      host: process.env.EMAIL_HOST,
+      port: process.env.EMAIL_PORT,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
 
-  await transport.sendMail({
-    from: '"PortafolioWeb - Adminsitrador de cuentas" <romera02rrs@gmail.com>',
-    to: email,
-    subject: 'PortafolioWeb - Confirma tu cuenta',
-    text: 'Confirma tu cuenta de PortafolioWeb',
-    html: `
-      <h1>¡Bienvenido ${nombre}!</h1>
-      <p>Confirma tu cuenta de portafolio web, haciendo click en el siguiente enlace</p>
-      <a href="${process.env.FRONTEND_URL}/usuarios/confirmar/${token}">¡Comienza a disfrutar de tus ventajas cuanto antes, haz click aqui!</a>
-      <p>Si no has creado una cuenta en <a href="${process.env.FRONTEND_URL}">${process.env.FRONTEND_URL}</a>, puedes ignorar este mensaje</p>
-    `
-  })
-};
+    await transport.sendMail({
+      from: '"PortafolioWeb - Adminsitrador de cuentas" <romera02rrs@gmail.com>',
+      to: email,
+      subject: 'PortafolioWeb - Confirma tu cuenta',
+      text: 'Confirma tu cuenta de PortafolioWeb',
+      html: `
+        <h1>¡Bienvenido ${nombre}!</h1>
+        <p>Confirma tu cuenta de portafolio web, haciendo click en el siguiente enlace</p>
+        <a href="${process.env.FRONTEND_URL}/usuarios/confirmar/${token}">¡Comienza a disfrutar de tus ventajas cuanto antes, haz click aquí!</a>
+        <p>Si no has creado una cuenta en <a href="${process.env.FRONTEND_URL}">${process.env.FRONTEND_URL}</a>, puedes ignorar este mensaje</p>
+      `
+    })
+  };
 
 export const emailOlvidePassword = async ({ nombre, email, token }) => {
 

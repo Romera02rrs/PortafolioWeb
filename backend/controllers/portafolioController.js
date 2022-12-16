@@ -1,5 +1,6 @@
 import Portafolio from "../models/Portafolio.js"
 
+// Obtener todos los portafolios  -  GET /api/portafolios
 const obtenerPortafolios = async (req, res) => {
 
     try {
@@ -11,6 +12,7 @@ const obtenerPortafolios = async (req, res) => {
     }
 }
 
+// Crear un nuevo portafolio  -  POST /api/portafolios
 const nuevoPortafolio = async (req, res) => {
 
     const nuevoPortafolio = new Portafolio(req.body)
@@ -24,6 +26,7 @@ const nuevoPortafolio = async (req, res) => {
 
 }
 
+// Obtener un portafolio  -  GET /api/portafolios/:id
 const obtenerPortafolio = async (req, res) => {
 
     //const portafolio = await Portafolio.find().where("_id").equals(req.params.id).where("autor").equals(req.usuario._id)
@@ -51,6 +54,7 @@ const obtenerPortafolio = async (req, res) => {
     return res.json(portafolio)
 }
 
+// Editar un portafolio  -  PUT /api/portafolios/:id
 const editarPortafolio = async (req, res) => {
     const { id } = req.params;
 
@@ -83,6 +87,7 @@ const editarPortafolio = async (req, res) => {
     }
 }
 
+// Eliminar un portafolio  -  DELETE /api/portafolios/:id
 const eliminarPortafolio = async (req, res) => {
     const { id } = req.params;
 

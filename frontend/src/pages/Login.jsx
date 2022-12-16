@@ -40,8 +40,7 @@ const Login = () => {
         msg: 'Inicio de sesión exitoso',
         color: "green",
       });
-      return navigate('/portafolios')
-      
+      navigate('/portafolios')
     } catch (error) {
       return setMensaje({
         titulo: error.response.status,
