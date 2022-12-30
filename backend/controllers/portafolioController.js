@@ -19,7 +19,7 @@ const nuevoPortafolio = async (req, res) => {
     nuevoPortafolio.autor = req.usuario._id
     try {
         const portafolioAlmacenado = await nuevoPortafolio.save()
-        res.json(portafolioAlmacenado)
+        res.json({ msg: "Portafolio almacenado correctamente en la base de datos" })
     } catch (error) {
         console.log(error);
     }

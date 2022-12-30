@@ -12,6 +12,7 @@ const portafolioSchema = mongoose.Schema(
       type: String,
       trim: true,
       maxLength: 5000,
+      required: [true, "La descripción es requerida"],
     },
     experiencia: [
       {

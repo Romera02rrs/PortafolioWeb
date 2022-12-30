@@ -5,11 +5,13 @@ import clienteAxios from "../config/clienteAxios";
 import { useForm } from "../hooks/useForm";
 import useAuth from "../hooks/useAuth";
 import { Navigate } from "react-router-dom";
+import { BarLoader } from "react-spinners";
 
 const Login = () => {
 
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(false)
   const { setAuth } = useAuth()
   const [mensaje, setMensaje] = useState(false)
   const { email, password, onInputChange } = useForm({
@@ -29,6 +31,7 @@ const Login = () => {
     }
 
     try {
+      setLoading(true)
       const { data } = await clienteAxios.post('/usuarios/login', {
         email, 
         password
@@ -40,6 +43,7 @@ const Login = () => {
         msg: 'Inicio de sesión exitoso',
         color: "green",
       });
+      setLoading(false)
       navigate('/portafolios')
     } catch (error) {
       return setMensaje({
@@ -98,6 +102,9 @@ const Login = () => {
             className="bg-rose-500 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </div>
+        {
+          loading && <div className="w-full justify-center flex"><BarLoader color={"#0284C7"} width={150} height={10} /></div>
+        }
       </form>
 
       <nav className="lg:flex lg:justify-between">

@@ -3,9 +3,11 @@ import clienteAxios from "../config/clienteAxios"
 import Mensaje from "../components/Mensaje"
 import { useState } from "react"
 import { useForm } from "../hooks/useForm"
+import { BarLoader } from "react-spinners"
 
 const OlvidePassword = () => {
 
+  const [loading, setLoading] = useState(false)
   const [mensaje, setMensaje] = useState(false)
   const { email, onInputChange } = useForm({
     email: ''
@@ -16,8 +18,10 @@ const OlvidePassword = () => {
     e.preventDefault()
 
     try {
+      setLoading(true)
       const { data } = await clienteAxios.post('/usuarios/olvide-password', {email})
       console.log(data);
+      setLoading(false)
       setMensaje({
         msg: data.msg,
         color: 'green',
@@ -30,8 +34,6 @@ const OlvidePassword = () => {
         titulo: 'Error ' + error.response.status
       })
     }
-    
-
   }
 
   return (
@@ -68,6 +70,9 @@ const OlvidePassword = () => {
             className="bg-rose-500 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </div>
+        {
+          loading && <div className="w-full justify-center flex"><BarLoader color={"#0284C7"} width={150} height={10} /></div>
+        }
       </form>
 
       <nav className="lg:flex lg:justify-between">

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import clienteAxios from "../config/clienteAxios";
 import useAuth from "./useAuth";
 
-const usePortafolios = () => {
+const usePortafolio = ( id ) => {
   
-  const [portafolios, setPortafolios] = useState()
+  const [portafolio, setPortafolio] = useState()
   const [ loading, setLoading ] = useState(true)
 
   const token = localStorage.getItem('token')
 
-  const getPortafolios = async () => {
+  const getPortafolio = async () => {
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -18,8 +18,8 @@ const usePortafolios = () => {
     };
 
     try {
-      const { data } = await clienteAxios.get('/portafolio', config)
-      setPortafolios(data)
+      const { data } = await clienteAxios.get('/portafolio/'+ id , config)
+      setPortafolio(data)
       console.log(data);   
       setLoading(false)
 
@@ -30,19 +30,19 @@ const usePortafolios = () => {
 
   useEffect(() => {
     
-    getPortafolios()
+    getPortafolio()
   }, [])
   
   const obtenerPortafolios = () => {
-    return getPortafolios()
+    return getPortafolio()
   }
 
   return {
-    portafolios,
+    portafolio,
     loading,
     obtenerPortafolios,
-    setPortafolios
+    setPortafolio
   };
 };
 
-export default usePortafolios;
+export default usePortafolio;

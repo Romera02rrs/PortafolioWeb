@@ -5,6 +5,7 @@ import { Modal } from "flowbite-react";
 import { ToggleSwitch } from "flowbite-react";
 import { useForm, useFieldArray } from "react-hook-form";
 import clienteAxios from "../config/clienteAxios";
+import { BarLoader } from "react-spinners";
 
 const FormularioPortafolio = () => {
   const date = new Date();
@@ -99,6 +100,7 @@ const FormularioPortafolio = () => {
   const [trabajoActual, setTrabajoActual] = useState(false);
   const [modalFormacionOpen, setModalFormacionOpen] = useState(false);
   const [formacionActual, setFormacionActual] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const changeTrabajoActual = () => {
     setTrabajoActual(!trabajoActual);
@@ -138,6 +140,7 @@ const FormularioPortafolio = () => {
 
   const onFormSubmit = (dataForm) => {
     if (errors.lenght > 0) {
+      setMensaje(errors[0]);
       return console.log("hay errores: ", errors);
     }
 
@@ -154,12 +157,18 @@ const FormularioPortafolio = () => {
       };
 
       try {
+        setLoading(true);
         const { data } = await clienteAxios.post(
           "/portafolio",
           dataForm,
           config
         );
-        console.log(data);
+        setLoading(false);
+        setMensaje({
+          titulo: "",
+          msg: "Portafolio creado correctamente",
+          color: "green",
+        });
       } catch (error) {
         console.log(error.response);
       }
@@ -172,9 +181,9 @@ const FormularioPortafolio = () => {
     <form
       className="bg-white py-10 px-5 md:w-4/5 lg:w-3/5 xl:w-2/5 rounded-lg shadow"
       onSubmit={handleSubmit(onFormSubmit)}>
-      {mensaje && <Alerta alerta={alerta} />}
+      {mensaje && <Mensaje mensaje={mensaje} />}
 
-      <div className="mb-5">
+      <div className="mb-5 mt-10">
         <label
           className="text-gray-700 uppercase font-bold text-sm"
           htmlFor="titulo">
@@ -182,7 +191,7 @@ const FormularioPortafolio = () => {
         </label>
 
         <input
-          {...register("titulo", { required: "El campo es requerido" })}
+          {...register("titulo", { required: "El título es requerido" })}
           id="titulo"
           type="text"
           className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md"
@@ -198,7 +207,9 @@ const FormularioPortafolio = () => {
         </label>
 
         <textarea
-          {...register("descripcion", { required: "El campo es requerido" })}
+          {...register("descripcion", {
+            required: "La descripción es requerida",
+          })}
           id="descripcion"
           className="border w-full p-2 mt-2 placeholder-gray-400 rounded-md"
           placeholder="Descripción del portafolio"
@@ -556,6 +567,11 @@ const FormularioPortafolio = () => {
         type="submit"
         className="bg-sky-600 w-full p-3 uppercase font-bold text-white rounded cursor-pointer hover:bg-sky-700 transition-colors"
       />
+      {loading && (
+        <div className="w-full justify-center flex mt-5">
+          <BarLoader color={"#0284C7"} width={150} height={10} />
+        </div>
+      )}
     </form>
   );
 };

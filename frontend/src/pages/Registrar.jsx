@@ -3,6 +3,7 @@ import { useForm } from "../hooks/useForm"
 import { Link, Navigate } from "react-router-dom"
 import Mensaje from "../components/Mensaje"
 import clienteAxios from "../config/clienteAxios"
+import { BarLoader } from "react-spinners"
 
 const Registrar = () => {
 
@@ -11,6 +12,8 @@ const Registrar = () => {
   // const [password, setPassword] = useState('')
   // const [rePassword, setRePassword] = useState('')  
   
+  const [loading, setLoading] = useState(false)
+
   const formData = {
     nombre: '',
     email: '',
@@ -50,6 +53,7 @@ const Registrar = () => {
     }
 
     try {
+      setLoading(true)
       await clienteAxios.post('/usuarios', 
         {
           nombre,
@@ -57,6 +61,7 @@ const Registrar = () => {
           password
         }
       )
+      setLoading(false)
       setMensaje({
         msg: "Usuario registrado correctamente, verifica tu email",
         color: 'green',
@@ -158,6 +163,9 @@ const Registrar = () => {
             className="bg-rose-500 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
           />
         </div>
+        {
+          loading && <div className="w-full justify-center flex"><BarLoader color={"#0284C7"} width={150} height={10} /></div>
+        }
       </form>
 
       <nav className="lg:flex lg:justify-between">

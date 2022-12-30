@@ -5,6 +5,7 @@ import Mensaje from "../components/Mensaje";
 import { useEffect } from "react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { BarLoader } from "react-spinners";
 
 const NuevoPassword = () => {
   const [mensaje, setMensaje] = useState(false);
@@ -14,13 +15,16 @@ const NuevoPassword = () => {
     rePassword: "",
   });
   const { token } = useParams();
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const confirmarToken = async () => {
 
       try {
+        setLoading(true);
         await clienteAxios.get('/usuarios/olvide-password/' + token);
         setTokenValido(true);
+        setLoading(false);
       } catch (error) {
         setMensaje({
           titulo: error.response.status,
@@ -128,6 +132,9 @@ const NuevoPassword = () => {
                 className="bg-rose-500 w-full py-3 text-white uppercase font-bold rounded hover:cursor-pointer hover:bg-sky-800 transition-colors"
               />
             </div>
+            {
+              loading && <div className="w-full justify-center flex"><BarLoader color={"#0284C7"} width={150} height={10} /></div>
+            }
           </form>
         </div>
       ) : (

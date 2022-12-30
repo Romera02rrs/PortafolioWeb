@@ -13,9 +13,6 @@ const Header = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row items-center gap-4">
-          <button type="button" className="hover:bg-gray-100 p-2 rounded-md font-bold uppercase transition-colors hover:shadow-md transition-all">
-            Buscar portafolio
-          </button>
           <Link to="/portafolios" className="font-bold uppercase hover:bg-gray-100 hover:shadow-md transition-all p-2 rounded-md">
             Portafolios
           </Link>
