@@ -1,93 +1,63 @@
-import React from "react";
-import { Navbar, Button, Timeline } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Suspense, useState } from "react";
+import ThreeScene from "../components/ThreeScene";
+import Sphere from "../components/Sphere";
+import { OrbitControls, Stars } from "@react-three/drei";
+import Model from "../components/Model";
+import HomeOverlay from "../components/HomeOverlay";
+import { useRef } from "react";
+import { PerspectiveCamera } from "@react-three/drei";
 
 const Home = () => {
+  const scroll = useRef(0);
+  const [cameraPosition, setCameraPosition] = useState([-0.15, 0, 2.2]);
+  const [cameraRotation, setCameraRotation] = useState([1.62, 0.01, 0.11]);
+
+  
+  const [rotation, setRotation] = useState(0)
+
+  const lightPosition = [-2, 5, 2];
+
+  document.body.onscroll = function () {
+    const t = document.body.getBoundingClientRect().top;
+
+    setCameraPosition([-0.15, 0 + t * -0.0005, 2.2 + t * -0.0015]);
+    setCameraRotation([1.62 + t * +0.00005, 0.01, 0.11 + t * -0.00003]);
+  };
+
+  document.body.onmousemove = function (e) {
+
+    const x = (e.clientX / window.innerWidth) * 500 -30;
+
+    setRotation(-x)
+  };
+
   return (
     <>
-      <nav>
-        <Navbar fluid={true} rounded={true}>
-          <Navbar.Brand>
-            <span className="text-4xl text-sky-600 font-black text-center mb-5 md:mb-0 capitalize">
-              Portafolio web
-            </span>
-          </Navbar.Brand>
-          <div className="flex md:order-2">
-            <Link to="/usuarios">
-              <button className="text-white text-sm bg-rose-500 p-3 rounded-md uppercase font-bold shadow-lg hover:shadow-none hover:bg-rose-700 transition-colors">
-                Usuarios
-              </button>
-            </Link>
-          </div>
-        </Navbar>
-      </nav>
-      <div className="py-10">
-        <div className="px-5 py-3 bg-sky-600 capitalize font-bold text-2xl text-white">
-          Rubén Romera Sánchez
-        </div>
+      <div className="canvas-container">
+        <ThreeScene>
+            <color attach="background" args={["#161c24"]} />
+            {/* <Sphere color="#ccff0c" position={lightPosition} /> */}
+            <ambientLight intensity={0.8} />
+            <directionalLight intensity={0.6} position={lightPosition} />
+            <group rotation={[0, rotation * 0.0005 , 0]}>
+              <Model  scroll={scroll} position={[0, -6.5, 0]} />
+            </group>
 
-        <div className="pt-5 px-5">
-          <div className="text-xl font-bold text-sky-600">Resumen Profesional</div>
-          <p>Jóven programador web con un gran interés en el mundo de la informática y la programación. Tengo gran capacidad para adaptarme a todo tipo de entornos y aportar siempre lo mejor de mí. Me caracterizo por mi facilidad para el trabajo en equipo y mi entusiasmo por aprender y desarrollar mis habilidades.</p>
-        </div>
-
-        <div className="pt-5 px-5">
-          <div className="text-xl font-bold text-sky-600">Experiencia</div>
-          <div className="pt-3">
-            <span className="font-bold block">NTTDATA</span>
-            <span className="block">Programador FrontEnd</span>
-            <span className="block">2022-12-07T01:10:20.159+00:00</span>
-            <span>Playa de san juan</span>
-          </div>
-        </div>
-
-        <div className="pt-5 px-5">
-          <div className="text-xl font-bold text-sky-600">Formacion</div>
-          <div className="pt-3">
-            <span className="font-bold block">Grado Superior en Desarrollo de Aplicaciones Web</span>
-            <span className="block">Informática, programación</span>
-            <span className="block">IES Enric Valor</span>
-            <span>Pego</span>
-          </div>
-
-          <div className="pt-3">
-            <span className="font-bold block">Grado Superior en Desarrollo de Aplicaciones Web</span>
-            <span className="block">Informática, programación</span>
-            <span className="block">IES Enric Valor</span>
-            <span>Pego</span>
-          </div>
-        </div>
-
-        <div className="pt-5 px-5">
-          <div className="text-xl font-bold text-sky-600">Habilidades</div>
-          <div className="pt-3">
-            <ul className="list-disc ml-5">
-              <li>HTML</li>
-              <li>CSS</li>
-              <li>JavaScript</li>
-              <li>React</li>
-              <li>NodeJS</li>
-              <li>Express</li>
-              <li>MySQL</li>
-              <li>MongoDB</li>
-            </ul>
-          </div>
-        </div>
-
-        <div className="pt-5 px-5">
-          <div className="text-xl font-bold text-sky-600">Aptitudes</div>
-          <div className="pt-3">
-            <ul className="list-disc ml-5">
-              <li>Trabajo en equipo</li>
-              <li>Capacidad de aprendizaje</li>
-              <li>Capacidad de adaptación</li>
-              <li>Responsabilidad</li>
-              <li>Resolución de problemas</li>
-              <li>Comunicación</li>
-            </ul>
-          </div>
-        </div>
+            <group
+              name="Camera"
+              position={cameraPosition}
+              rotation={cameraRotation}>
+              <PerspectiveCamera
+                makeDefault
+                far={100}
+                near={0.1}
+                fov={28}
+                rotation={[-Math.PI / 2, 0.43, 0]}
+              />
+          </group>
+        </ThreeScene>
       </div>
+      <HomeOverlay />
     </>
   );
 };
